@@ -1,0 +1,68 @@
+.logocontainer
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logocontainer img
+{
+    width: 400;
+    height: 254;
+}
+.encoderarea
+{
+    padding-bottom: 15%;
+    padding-left: 15%;
+    padding-right: 15%;
+}
+.encodermenu
+{
+    border: 1px solid silver;
+    border-radius: 5px;
+    padding: 5%
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="#000" d="M2 0L0 2h4zM2 5L0 3h4z"/></svg>') no-repeat right 10px center;
+    background-color: #fff;
+    background-size: 10px;
+    cursor: pointer;
+}
+
+button {
+    padding: 10px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #333;
+}
