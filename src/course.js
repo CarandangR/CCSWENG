@@ -30,4 +30,4 @@ const subjectSchema = new Schema({
 
 const Subject = model('Subject', subjectSchema); 
 
-export default course;
+export default Subject;
