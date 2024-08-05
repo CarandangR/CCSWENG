@@ -1,105 +1,47 @@
-<html>
-    <head>
-        <title> FlowSIS Heatmap </title>
-        <link rel="stylesheet" type="text/css" href="/public/css/flowsis_heat.css" />
-    </head>
-
-    <body>
-        <div class="mainpage"> 
-            <div class="logocontainer">
-                <img src="/public/img/flowsis_icon.png"/>
-            </div>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>COLLEGE</th>
-                            <th>Takers</th>
-                            <th>Course Code</th>
-                            <th>Course Title</th>
-                            <th>Sections to Merge</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>CCS</td>
-                            <td>CS-ST 122 (30)</td>
-                            <td>STSWENG</td>
-                            <td>Advanced Software Engineering</td>
-                            <td>NaN</td>
-                        </tr>
-                        <tr>
-                            <td>CCS</td>
-                            <td>CS-ST 122 (30)</td>
-                            <td>STADVDB</td>
-                            <td>Advanced Database Systems</td>
-                            <td>NaN</td>
-                        </tr>
-                        <tr>
-                            <td>CCS</td>
-                            <td>CS-ST 122 (30)</td>
-                            <td>CSARCH2</td>
-                            <td>Introduction to Computer Organization and Architecture 2</td>
-                            <td>NaN</td>
-                        </tr>
-                        <tr>
-                            <td>CCS</td>
-                            <td>CS-ST 122 (30)</td>
-                            <td>LBYARCH</td>
-                            <td>Laboratory</td>
-                            <td>NaN</td>
-                        </tr>
-                        <tr>
-                            <td>CCS</td>
-                            <td>CS-ST 122 (30)</td>
-                            <td>STELEC1</td>
-                            <td>ST Elective 1</td>
-                            <td>NaN</td>
-                        </tr>
-                        <tr>
-                            <td>LCGE</td>
-                            <td>BSMGT-BAS 121 (15), CIV 122 (15), BSPSYCS 120 (15)</td>
-                            <td class="highlight">GEUSELF</td>
-                            <td>Understanding the Self</td>
-                            <td>XA1, XB1, XC1</td>
-                        </tr>
-                        <tr>
-                            <td>LCGE</td>
-                            <td>CS-STS 122 (30), BSBIO-MEDS 123 (12), BSMGT-BAS 121 (15)</td>
-                            <td class="highlight">LCENWRD</td>
-                            <td>Encountering the Word in the World</td>
-                            <td>XB1, XC1</td>
-                        </tr>
-                        <tr>
-                            <td>LCGE</td>
-                            <td>IES 122 (15), CIV 122 (15)</td>
-                            <td class="highlight">GEWORLD</td>
-                            <td>The Contemporary World</td>
-                            <td>XEI, XE2</td>
-                        </tr>
-                        <tr>
-                            <td>LCGE</td>
-                            <td>BSPSYCS 121 (15)</td>
-                            <td>GERIZAL</td>
-                            <td>The Life and Works of Rizal</td>
-                            <td>NaN</td>
-                        </tr>
-                        <tr>
-                            <td>LCGE</td>
-                            <td>BSMGT-BAS 121 (15)</td>
-                            <td>GEARTAP</td>
-                            <td>Art Appreciation</td>
-                            <td>NaN</td>
-                        </tr>
-                        <tr>
-                            <td>LCGE</td>
-                            <td>ABPHS-FIS 120 (4), BSBIO-MEDS 123 (12)</td>
-                            <td>GEETHIC</td>
-                            <td>Ethics</td>
-                            <td>NaN</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FlowSIS Heatmap</title>
+    <link rel="stylesheet" type="text/css" href="/public/css/flowsis_heat.css">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <div class="mainpage">
+        <div class="logocontainer">
+            <img src="/public/img/flowsis_icon.png"/>
         </div>
-    </body>
+        <div class="table-container">
+            <table id="subjectsTable">
+                <thead>
+                    <tr>
+                        <th>COLLEGE</th>
+                        <th>Takers</th>
+                        <th>Course Code</th>
+                        <th>Course Title</th>
+                        <th>Sections to Merge</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        d3.json('/api/subjects').then(data => {
+            const table = d3.select('#subjectsTable').select('tbody');
+            const rows = table.selectAll('tr')
+                .data(data)
+                .enter()
+                .append('tr');
+            
+            rows.append('td').text(d => d.college);
+            rows.append('td').text(d => `${d.subjectname} (${d.subjectyear})`);
+            rows.append('td').text(d => d.subjectabb);
+            rows.append('td').text(d => d.subjectname);
+            rows.append('td').text(d => d.subjectsection);
+        }).catch(error => console.error('Error loading the data: ', error));
+    </script>
+</body>
+</html>

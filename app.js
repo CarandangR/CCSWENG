@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from 'url';
+import courses from '/src/course.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,4 +33,13 @@ app.get("/Encoder", function (req, res) {
 
 app.get("/Heat_Index", function (req, res) {
     res.sendFile(path.join(__dirname, 'views', 'CSSWENG Heat.html'));
+});
+
+app.get("/api/subjects", async (req, res) => {
+    try {
+        const subjects = await courses.find({});
+        res.json(subjects);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 });
