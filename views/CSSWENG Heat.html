@@ -1,47 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>FlowSIS Heatmap</title>
-    <link rel="stylesheet" type="text/css" href="/public/css/flowsis_heat.css">
-    <script src="https://d3js.org/d3.v6.min.js"></script>
-</head>
-<body>
-    <div class="mainpage">
-        <div class="logocontainer">
-            <img src="/public/img/flowsis_icon.png"/>
+    <head>
+        <meta charset="UTF-8">
+        <title>FlowSIS Heatmap</title>
+        <link rel="stylesheet" type="text/css" href="/public/css/flowsis_heat.css">
+        <script src="https://d3js.org/d3.v6.min.js"></script>
+    </head>
+    <body>
+        <div class="mainpage">
+            <div class="logocontainer">
+                <img src="/public/img/flowsis_icon.png"/>
+            </div>
+            <div class="table-container">
+                <table id="subjectsTable">
+                    <thead>
+                        <tr>
+                            <th>COLLEGE</th>
+                            <th>Takers</th>
+                            <th>Course Code</th>
+                            <th>Course Title</th>
+                            <th>Sections to Merge</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="table-container">
-            <table id="subjectsTable">
-                <thead>
-                    <tr>
-                        <th>COLLEGE</th>
-                        <th>Takers</th>
-                        <th>Course Code</th>
-                        <th>Course Title</th>
-                        <th>Sections to Merge</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-    </div>
 
-    <script>
-        d3.json('/api/subjects').then(data => {
-            const table = d3.select('#subjectsTable').select('tbody');
-            const rows = table.selectAll('tr')
-                .data(data)
-                .enter()
-                .append('tr');
-            
-            rows.append('td').text(d => d.college);
-            rows.append('td').text(d => `${d.subjectname} (${d.subjectyear})`);
-            rows.append('td').text(d => d.subjectabb);
-            rows.append('td').text(d => d.subjectname);
-            rows.append('td').text(d => d.subjectsection);
-        }).catch(error => console.error('Error loading the data: ', error));
-    </script>
-</body>
+        <script>
+            d3.json('/api/subjects').then(data => {
+                const maxSections = Math.max(...data.map(d => d.sections.length)); // Find maximum number of sections for scaling
+                const colorScale = d3.scaleSequentialSqrt([0, maxSections], d3.interpolateReds).range(["#ffffff", "#ff9999"]); // Sqrt scale for soft gradient
+                
+                const table = d3.select('#subjectsTable').select('tbody');
+                const rows = table.selectAll('tr')
+                    .data(data)
+                    .enter()
+                    .append('tr');
+                
+                rows.append('td').text(d => d.college);
+                rows.append('td').text(d => d.takers);
+        
+                const courseCodeCell = rows.append('td')
+                    .text(d => d.courseCode)
+                    .style("background-color", d => colorScale(d.sections.length)); // Apply heatmap style only to course code
+        
+                rows.append('td').text(d => d.courseTitle);
+                
+                const sectionCell = rows.append('td');
+                sectionCell.each(function(d) {
+                    const sectionsText = d.sections.length > 0 ? d.sections.join(', ') : 'NaN';
+                    d3.select(this).text(sectionsText);
+                });
+            }).catch(error => console.error('Error loading the data: ', error));
+        </script>
+        <div class="back">
+            <a href="/" class="back-button"> Back </a>
+        </div>
+    </body>
 </html>

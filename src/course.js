@@ -13,12 +13,16 @@ const subjectSchema = new Schema({
         type: SchemaTypes.String,
         required: true
     },
+    subjecttakers: {
+        type: SchemaTypes.Number,
+        required: true
+    },
     subjectyear: {
-        type: SchemaTypes.String,
+        type: SchemaTypes.Number,
         required: true
     },
     subjectterm: {
-        type: SchemaTypes.String,
+        type: SchemaTypes.Number,
         required: true
     },
     subjectsection: {

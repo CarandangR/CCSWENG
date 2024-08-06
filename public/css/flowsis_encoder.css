@@ -45,9 +45,6 @@ select {
     border: 1px solid #ccc;
     border-radius: 4px;
     appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="#000" d="M2 0L0 2h4zM2 5L0 3h4z"/></svg>') no-repeat right 10px center;
     background-color: #fff;
     background-size: 10px;
     cursor: pointer;
@@ -64,5 +61,25 @@ button {
 }
 
 button:hover {
+    background-color: #333;
+}
+
+a {
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+}
+
+.back-button {
+    padding: 10px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+}
+
+.back-button:hover {
     background-color: #333;
 }

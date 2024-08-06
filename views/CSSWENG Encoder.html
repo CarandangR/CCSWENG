@@ -1,35 +1,43 @@
 <html>
-    <head>
-        <title> FlowSIS Encoder </title>
-        <link rel="stylesheet" type="text/css" href="/public/css/flowsis_encoder.css" />
-    </head>
+<head>
+    <title>FlowSIS Encoder</title>
+    <link rel="stylesheet" type="text/css" href="../public/css/flowsis_encoder.css" />
+</head>
+<body>
+    <div class="mainpage"> 
+        <div class="logocontainer">
+            <img src="../public/img/flowsis_icon.png"/>
+        </div>
+        <div class="encoderarea">
+            <div class="form-container">
+                <form id="subjectForm">
+                    <label for="college">College</label>
+                    <input type="text" id="college" name="college" required>
+                    
+                    <label for="subjectname">Subject Name</label>
+                    <input type="text" id="subjectname" name="subjectname" required>
 
-    <body>
-        <div class="mainpage"> 
-            <div class="logocontainer">
-                <img src="/public/img/flowsis_icon.png"/>
-            </div>
-            <div class="encoderarea">
-                <div class="form-container">
-                     <form>
-                        <label for="id-number">ID Number</label>
-                         <select id="id-number" name="id-number">
-                            <option value="">Dropdown</option>
-                        </select>
-                
-                        <label for="program-code">Program Code</label>
-                        <select id="program-code" name="program-code">
-                            <option value="">Dropdown</option>
-                        </select>
-                
-                        <label for="term-year">Term and School Year</label>
-                        <select id="term-year" name="term-year">
-                            <option value="">Dropdown</option>
-                        </select>
-                
-                        <button type="submit">Find Flow</button>
-                    </form>
-                </div>
+                    <label for="subjectabb">Subject Abbreviation</label>
+                    <input type="text" id="subjectabb" name="subjectabb" required>
+
+                    <label for="subjecttakers">Subject Takers</label>
+                    <input type="text" id="subjecttakers" name="subjecttakers" required>
+
+                    <label for="subjectyear">Subject Year</label>
+                    <input type="text" id="subjectyear" name="subjectyear" required>
+
+                    <label for="subjectterm">Subject Term</label>
+                    <input type="text" id="subjectterm" name="subjectterm" required>
+
+                    <label for="subjectsection">Subject Section</label>
+                    <input type="text" id="subjectsection" name="subjectsection" required>
+
+                    <button type="submit">Submit</button>
+                    <a href="/" class="back-button">Back</a>
+                </form>
             </div>
         </div>
-    </body>
+    </div>
+    <script src="../public/js/submitForm.js"></script>
+</body>
+</html>
