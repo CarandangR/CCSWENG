@@ -30,7 +30,7 @@
 
         <script>
             d3.json('/api/subjects').then(data => {
-                const maxSections = Math.max(...data.map(d => d.sections.length)); // Find maximum number of sections for scaling
+                const maxSections = Math.max(...data.map(d => d.subjectsection.length)); // Find maximum number of sections for scaling
                 const colorScale = d3.scaleSequentialSqrt([0, maxSections], d3.interpolateReds).range(["#ffffff", "#ff9999"]); // Sqrt scale for soft gradient
                 
                 const table = d3.select('#subjectsTable').select('tbody');
@@ -40,17 +40,17 @@
                     .append('tr');
                 
                 rows.append('td').text(d => d.college);
-                rows.append('td').text(d => d.takers);
+                rows.append('td').text(d => d.subjecttakers);
         
                 const courseCodeCell = rows.append('td')
-                    .text(d => d.courseCode)
-                    .style("background-color", d => colorScale(d.sections.length)); // Apply heatmap style only to course code
+                    .text(d => d.subjectabb)
+                    .style("background-color", d => colorScale(d.subjectsection.length)); // Apply heatmap style only to course code
         
-                rows.append('td').text(d => d.courseTitle);
+                rows.append('td').text(d => d.subjectname);
                 
                 const sectionCell = rows.append('td');
                 sectionCell.each(function(d) {
-                    const sectionsText = d.sections.length > 0 ? d.sections.join(', ') : 'NaN';
+                    const sectionsText = d.subjectsection.length > 0 ? d.subjectsection.join(', ') : 'NaN';
                     d3.select(this).text(sectionsText);
                 });
             }).catch(error => console.error('Error loading the data: ', error));
