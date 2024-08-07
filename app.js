@@ -101,3 +101,34 @@ app.delete("/deleteSubject/:id", async (req, res) => {
         res.status(500).send({ message: "Error deleting subject", error: error.message });
     }
 });
+
+app.get("/api/flowchartdropdown", async (req, res) => {
+    try {
+        // Fetch distinct college courses from the database
+        const courses = await courseFlowchart.distinct('collegecourse');
+        res.json(courses.map(course => ({ collegecourse: course })));
+    } catch (error) {
+        console.error("Error fetching courses:", error);
+        res.status(500).json({ message: "Failed to retrieve courses", error: error.message });
+    }
+});
+
+app.post("/api/collegecourses", async (req, res) => {
+    try {
+        const { collegecourse } = req.body;
+        console.log("Received collegecourse:", collegecourse);
+        
+        if (!collegecourse) {
+            return res.status(400).json({ message: "No collegecourse provided" });
+        }
+
+        const flowchartData = await courseFlowchart.find({ collegecourse }).lean();
+        if (flowchartData.length === 0) {
+            return res.status(404).json({ message: "No data found for the given collegecourse" });
+        }
+
+        res.json(flowchartData);
+    } catch (error) {
+        res.status(500).json({ message: "Failed to retrieve data", error: error.message });
+    }
+});
