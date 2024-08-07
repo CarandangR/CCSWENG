@@ -58,6 +58,7 @@ a {
 }
 
 .back-button {
+    float: right;
     padding: 10px;
     margin-bottom: 20px;
     background-color: #000;
