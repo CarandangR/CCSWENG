@@ -9,6 +9,17 @@
     width: 400;
     height: 254;
 }
+.instructions{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top */
+    margin-top: 20px;
+    font-size: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: none;
+    padding-bottom: none;
+}
 .encoderarea
 {
     padding-bottom: 15%;
@@ -34,6 +45,9 @@ form {
     display: flex;
     flex-direction: column;
     gap: 15px;
+}
+textarea{
+    resize: none;
 }
 
 label {
