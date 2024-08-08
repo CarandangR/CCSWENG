@@ -5,14 +5,13 @@ window.addEventListener("DOMContentLoaded", (event) => {
             .then(response => response.json())
             .then(data => {
                 const dropdown = document.getElementById('subjectDropdown');
-                dropdown.innerHTML = ''; // Clear existing options
+                dropdown.innerHTML = '';
 
                 if (Array.isArray(data) && data.length > 0) {
                     data.forEach(subject => {
-                        // Ensure subjectabb and subjectsection are defined
                         if (subject.subjectabb && subject.subjectsection) {
                             const option = document.createElement('option');
-                            option.value = subject._id; // Use unique identifier
+                            option.value = subject._id;
                             option.text = `${subject.subjectabb} - ${subject.subjectsection}`;
                             dropdown.appendChild(option);
                         }
@@ -26,9 +25,15 @@ window.addEventListener("DOMContentLoaded", (event) => {
     document.getElementById('subjectForm').addEventListener('submit', function(event) {
         event.preventDefault();
         const inputLines = document.getElementById('subjectInput').value.trim().split('\n');
-        inputLines.forEach(line => {
-            const formData = line.split('\t'); // Split each line into parts
-            const dataObj = {
+        let allEntriesValid = true;
+    
+        const formattedData = inputLines.map(line => {
+            const formData = line.split('\t');
+            if (formData.length !== 7 || isNaN(parseInt(formData[3])) || isNaN(parseInt(formData[4])) || isNaN(parseInt(formData[5]))) {
+                allEntriesValid = false;
+                return null;
+            }
+            return {
                 college: formData[0],
                 subjectname: formData[1],
                 subjectabb: formData[2],
@@ -37,19 +42,29 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 subjectterm: parseInt(formData[5]),
                 subjectsection: formData[6]
             };
-            fetch('/uploadCourse', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dataObj)
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert('Subject added successfully!');
-            })
-            .catch(error => console.error('Error:', error));
         });
-
-        document.getElementById('subjectForm').reset(); // Clear the form fields after processing all lines
+    
+        if (!allEntriesValid) {
+            alert('One or more entries are invalid. Please check your data format.');
+            return;
+        }
+    
+        formattedData.forEach(dataObj => {
+            if (dataObj) {
+                fetch('/uploadCourse', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dataObj)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Subject added successfully!');
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        });
+    
+        document.getElementById('subjectForm').reset();
         loadSubjects();
     });
 
@@ -60,7 +75,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 .then(response => response.json())
                 .then(data => {
                     alert('Subject deleted successfully!');
-                    loadSubjects(); // Reload the dropdown
+                    loadSubjects();
                 })
                 .catch(error => console.error('Error deleting subject:', error));
         } else {
@@ -76,11 +91,9 @@ window.addEventListener("DOMContentLoaded", (event) => {
             var start = this.selectionStart;
             var end = this.selectionEnd;
       
-          // set textarea value to: text before caret + tab + text after caret
             this.value = this.value.substring(0, start) +
             "\t" + this.value.substring(end);
       
-          // put caret at right position again
             this.selectionStart =
             this.selectionEnd = start + 1;
         }

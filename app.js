@@ -96,12 +96,8 @@ app.post("/uploadCourse", async (req, res) => {
 
 app.delete("/deleteSubject/:id", async (req, res) => {
     try {
-        console.log(req.params);
         const subjectId = req.params.id;
-        console.log(subjectId);
         console.log('Deleting subject with ID:', subjectId);
-
-        // Check if the ID is a valid MongoDB ObjectId
         if (!mongoose.Types.ObjectId.isValid(subjectId)) {
             return res.status(400).send({ message: "Invalid ID format" });
         }
@@ -116,7 +112,6 @@ app.delete("/deleteSubject/:id", async (req, res) => {
 
 app.get("/api/flowchartdropdown", async (req, res) => {
     try {
-        // Fetch distinct college courses from the database
         const courses = await courseFlowchart.distinct('collegecourse');
         res.json(courses.map(course => ({ collegecourse: course })));
     } catch (error) {
