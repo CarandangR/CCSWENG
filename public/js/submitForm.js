@@ -1,22 +1,20 @@
 
 window.addEventListener("DOMContentLoaded", (event) => {
     function loadSubjects() {
-        fetch('/api/subjects')
+        fetch('/api/getSubjects')
             .then(response => response.json())
             .then(data => {
                 const dropdown = document.getElementById('subjectDropdown');
                 dropdown.innerHTML = ''; // Clear existing options
-                
+
                 if (Array.isArray(data) && data.length > 0) {
                     data.forEach(subject => {
                         // Ensure subjectabb and subjectsection are defined
                         if (subject.subjectabb && subject.subjectsection) {
-                            subject.subjectsection.forEach(section => {
-                                const option = document.createElement('option');
-                                option.value = subject.ids; // Use unique identifier
-                                option.text = `${subject.subjectabb} - ${section}`;
-                                dropdown.appendChild(option);
-                            });
+                            const option = document.createElement('option');
+                            option.value = subject._id; // Use unique identifier
+                            option.text = `${subject.subjectabb} - ${subject.subjectsection}`;
+                            dropdown.appendChild(option);
                         }
                     });
                 } else {
@@ -87,4 +85,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
             this.selectionEnd = start + 1;
         }
     });
+
+    loadSubjects();
 });

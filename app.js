@@ -74,6 +74,16 @@ app.get("/api/subjects", async (req, res) => {
     }
 });
 
+app.get("/api/getSubjects", async (req, res) => {
+    try {
+        const subjects = await courses.find({});
+        res.json(subjects);
+    } catch (error) {
+        console.error("Failed to fetch subjects:", error);
+        res.status(500).json({ message: "Failed to fetch subjects", error: error.message });
+    }
+});
+
 app.post("/uploadCourse", async (req, res) => {
     try {
         const subject = new courses(req.body);
@@ -86,7 +96,9 @@ app.post("/uploadCourse", async (req, res) => {
 
 app.delete("/deleteSubject/:id", async (req, res) => {
     try {
+        console.log(req.params);
         const subjectId = req.params.id;
+        console.log(subjectId);
         console.log('Deleting subject with ID:', subjectId);
 
         // Check if the ID is a valid MongoDB ObjectId
